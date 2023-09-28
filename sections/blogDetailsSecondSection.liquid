@@ -1,0 +1,453 @@
+<section class="section-wrapper-{{ section.id }} section-wrapper-{{ section.id }}-width-{{ section.settings.text-block-width }}">
+  {% for block in section.blocks %}
+    {% case block.type %}
+      {% when 'firstParagraph' %}
+        <div class="firstParagraph-{{ block.id }}">
+          {{ block.settings.firstParagraph }}
+        </div>
+      {% when 'secondParagraph' %}
+        <div class="secondParagraph-{{ block.id }}">
+          {{ block.settings.secondParagraph }}
+        </div>
+    {% endcase %}
+  {% endfor %}
+</section>
+
+<style>
+    .section-wrapper-{{ section.id }} {
+        background-color: aliceblue;
+        display: {{ section.settings.display}};
+        gap:{{section.settings.gap}}px;
+    }
+  .section-wrapper-{{ section.id }}-width-small{
+    max-width: 600px;
+    margin:0 auto;
+  }
+  .section-wrapper-{{ section.id }}-width-medium{
+    max-width: 967px;
+    margin:0 auto;
+  }
+  .section-wrapper-{{ section.id }}-width-large{
+    max-width: 100%;
+  }
+  .section-wrapper-{{ section.id }}-width-custom{
+    max-width: {{section.settings.custom-block-width | append: "px"}};
+    margin:0 auto;
+  }
+  .section-wrapper-{{ section.id }}-width-large p{
+    padding: 0 32px;
+  }
+
+    {% for block in section.blocks %}
+
+      {% case block.type %}
+        {% when "firstParagraph" %}
+
+      .firstParagraph-{{ block.id }} p{
+        font-size:{{block.settings.font-size | append:"px"}};
+        font-family: {{block.settings.font-family}};
+        line-height: {{block.settings.line-height}}px;
+        color: {{block.settings.text-color}};
+        letter-spacing:{{ block.settings.letter-spacing }}px;
+        text-indent:{{ block.settings.text-indent }}cm;
+      }
+
+      .firstParagraph-{{ block.id }}{
+        text-align:{{block.settings.align_text}};
+      }
+
+      @media only screen and (max-width: 600px){
+        font-size:{{block.settings.mobile-font-size | append:"px"}};
+        font-family: {{block.settings.mobile-font-family}};
+        line-height: {{block.settings.mobile-line-height}}px;
+        color: {{block.settings.mobile-text-color}};
+        letter-spacing:{{ block.settings.mobile-letter-spacing }}px;
+        text-indent:{{ block.settings.text-indent }}cm;
+      }
+
+      {% when "secondParagraph" %}
+        .secondParagraph-{{ block.id }} p{
+        font-size:{{block.settings.font-size | append:"px"}};
+        font-family: {{block.settings.font-family}};
+        line-height: {{block.settings.line-height}}px;
+        color: {{block.settings.text-color}};
+        letter-spacing:{{ block.settings.letter-spacing }}px;
+        text-indent:{{ block.settings.mobile-text-indent }}cm;
+      }
+
+      .secondParagraph-{{ block.id }}{
+        text-align:{{block.settings.align_text}};
+      }
+
+      @media only screen and (max-width: 600px){
+        font-size:{{block.settings.mobile-font-size | append:"px"}};
+        font-family: {{block.settings.mobile-font-family}};
+        line-height: {{block.settings.mobile-line-height}}px;
+        color: {{block.settings.mobile-text-color}};
+        letter-spacing:{{ block.settings.mobile-letter-spacing }}px;
+        text-indent:{{ block.settings.mobile-text-indent }}cm;
+      }
+
+      {% endcase %}
+
+      {% endfor %}
+</style>
+
+{% schema %}
+  {
+    "name": "Blog Details ",
+       "settings": [
+        {
+            "type": "select",
+           "id":"text-block-width",
+           "label":"Width of Blog Details",
+           "options":[
+             {
+               "value":"small",
+               "label":"Small"
+             },
+             {
+               "value":"medium",
+               "label":"Medium"
+             },
+             {
+               "value":"large",
+               "label":"Large"
+             },
+             {
+               "value":"custom",
+               "label":"Custom"
+             }
+           ],
+           "default": "medium"
+         },
+         {
+         "type": "range",
+           "id":"custom-block-width",
+           "label":"Change your blog Width",
+           "min": 100,
+           "max": 2000,
+           "step": 50,
+           "unit": "px",
+           "default": 800
+         },
+         {
+            "type": "select",
+           "id":"display",
+           "label":"Display Position of Blog Details",
+           "options":[
+             {
+               "value":"block",
+               "label":"Block"
+             },
+             {
+               "value":"inline",
+               "label":"Inline"
+             },
+             {
+               "value":"block-inline",
+               "label":"Block + Inline"
+             },
+             {
+               "value":"flex",
+               "label":"Flex"
+             }
+           ],
+           "default": "flex"
+         },
+         {
+         "type": "range",
+           "id":"gap",
+           "label":"Gap Between Paragraph",
+           "min": 10,
+           "max": 100,
+           "step": 5,
+           "unit": "px",
+           "default": 20
+         }
+       ],
+
+    "blocks":[
+      {
+        "name": "First Paragraph",
+       "type": "firstParagraph",
+       "settings": [
+        {"type": "richtext",
+           "id": "firstParagraph",
+           "label":"Change the First Paragraph",
+           "default":"<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eu euismod ante, quis finibus odio. Aenean scelerisque consectetur pharetra. In condimentum est eu eros malesuada aliquam.</p>"
+         },
+         {
+         "type": "range",
+           "id":"font-size",
+           "label":"Font Size",
+           "min": 10,
+           "max": 50,
+           "step": 1,
+           "unit": "px",
+           "default": 18
+         }, {
+         "type": "range",
+           "id":"mobile-font-size",
+           "label":"Font Size For Mobile Device",
+           "min": 8,
+           "max": 40,
+           "step": 1,
+           "unit": "px",
+           "default": 20
+         },
+          {
+         "type": "range",
+           "id":"line-height",
+           "label":"Line Height",
+           "min": 10,
+           "max": 80,
+           "step": 1,
+           "unit": "px",
+           "default": 30
+         },
+         {
+         "type": "range",
+           "id":"mobile-line-height",
+           "label":"Line Height For Mobile",
+           "min": 10,
+           "max": 80,
+           "step": 1,
+           "unit": "px",
+           "default": 16
+         },
+         {
+         "type": "range",
+           "id":"letter-spacing",
+           "label":"Letter Spacing",
+           "min": 1,
+           "max": 10,
+           "step": 0.5,
+           "unit": "px",
+           "default": 1
+         },
+         {
+         "type": "range",
+           "id":"mobile-letter-spacing",
+           "label":"Letter Spacing For Mobile",
+           "min": 1,
+           "max": 10,
+           "step": 0.5,
+           "unit": "px",
+           "default": 1
+         },
+         {
+         "type": "range",
+           "id":"text-indent",
+           "label":"Text Indent",
+           "min": 0,
+           "max": 10,
+           "step": 0.5,
+           "unit": "cm",
+           "default": 0
+         },
+         {
+         "type": "range",
+           "id":"mobile-text-indent",
+           "label":"Text Indent For Mobile",
+           "min": 0,
+           "max": 10,
+           "step": 0.5,
+           "unit": "cm",
+           "default": 0
+         },
+         {
+         "type": "font",
+           "id":"font-family",
+           "label":"Font Family"
+         },
+         {
+         "type": "color",
+           "id":"text-color",
+           "label":"Text Color",
+           "default": "#333333"
+         },
+         {
+         "type": "font",
+           "id":"mobile-font-family",
+           "label":"Font Family For Mobile"
+         },
+         {
+         "type": "color",
+           "id":"mobile-text-color",
+           "label":"Text Color For Mobile",
+           "default": "#333333"
+         },
+          {
+         "type": "select",
+           "id":"align_text",
+           "label":"Text Alignment",
+           "options":[
+             {
+               "value":"left",
+               "label":"Left"
+             },
+             {
+               "value":"center",
+               "label":"Center"
+             },
+             {
+               "value":"right",
+               "label":"Right"
+             }
+           ],
+           "default": "left"
+         }
+         ]},
+         {
+        "name": "Second Paragraph",
+       "type": "secondParagraph",
+       "settings": [
+        {"type": "richtext",
+           "id": "secondParagraph",
+           "label":"Change the Second Paragraph",
+           "default":"<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eu euismod ante, quis finibus odio. Aenean scelerisque consectetur pharetra. In condimentum est eu eros malesuada aliquam.</p>"
+         },
+         {
+         "type": "range",
+           "id":"font-size",
+           "label":"Font Size",
+           "min": 10,
+           "max": 50,
+           "step": 1,
+           "unit": "px",
+           "default": 18
+         }, {
+         "type": "range",
+           "id":"mobile-font-size",
+           "label":"Font Size For Mobile Device",
+           "min": 8,
+           "max": 40,
+           "step": 1,
+           "unit": "px",
+           "default": 20
+         },
+          {
+         "type": "range",
+           "id":"line-height",
+           "label":"Line Height",
+           "min": 10,
+           "max": 80,
+           "step": 1,
+           "unit": "px",
+           "default": 30
+         },
+         {
+         "type": "range",
+           "id":"mobile-line-height",
+           "label":"Line Height For Mobile",
+           "min": 10,
+           "max": 80,
+           "step": 1,
+           "unit": "px",
+           "default": 16
+         },
+         {
+         "type": "range",
+           "id":"letter-spacing",
+           "label":"Letter Spacing",
+           "min": 1,
+           "max": 10,
+           "step": 0.5,
+           "unit": "px",
+           "default": 1
+         },
+         {
+         "type": "range",
+           "id":"mobile-letter-spacing",
+           "label":"Letter Spacing For Mobile",
+           "min": 1,
+           "max": 10,
+           "step": 0.5,
+           "unit": "px",
+           "default": 1
+         },
+         {
+         "type": "range",
+           "id":"text-indent",
+           "label":"Text Indent",
+           "min": 0,
+           "max": 10,
+           "step": 0.5,
+           "unit": "cm",
+           "default": 0
+         },
+         {
+         "type": "range",
+           "id":"mobile-text-indent",
+           "label":"Text Indent For Mobile",
+           "min": 0,
+           "max": 10,
+           "step": 0.5,
+           "unit": "cm",
+           "default": 0
+         },
+         {
+         "type": "font",
+           "id":"font-family",
+           "label":"Font Family"
+         },
+         {
+         "type": "color",
+           "id":"text-color",
+           "label":"Text Color",
+           "default": "#333333"
+         },
+         {
+         "type": "font",
+           "id":"mobile-font-family",
+           "label":"Font Family For Mobile"
+         },
+         {
+         "type": "color",
+           "id":"mobile-text-color",
+           "label":"Text Color For Mobile",
+           "default": "#333333"
+         },
+          {
+         "type": "select",
+           "id":"align_text",
+           "label":"Text Alignment",
+           "options":[
+             {
+               "value":"left",
+               "label":"Left"
+             },
+             {
+               "value":"center",
+               "label":"Center"
+             },
+             {
+               "value":"right",
+               "label":"Right"
+             }
+           ],
+           "default": "left"
+         }
+         ]}
+       ],
+       "presets": [
+	{ "name": "Blog Details Second Section",
+    "blocks": [
+        {
+          "type": "firstParagraph"
+        }
+        ,
+        {
+          "type": "secondParagraph"
+        }
+      ]}
+]
+     }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

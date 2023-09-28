@@ -1,0 +1,559 @@
+<section class="section-wrapper-{{ section.id }}">
+  {% for block in section.blocks %}
+    {% case block.type %}
+      {% when 'headLine' %}
+        <div class="headLine-{{ block.id }}">
+          <div class="headLine-{{ block.id }}-width-{{ block.settings.text-block-width }}">
+            {{ block.settings.headLine }}
+          </div>
+        </div>
+
+      {% when 'imageSection' %}
+        {% if block.settings.upload_image == blank %}
+          <div class="imageSection-{{ block.id }} {{ block.settings.alignment }}">
+            <img
+              class="imageSection-{{ block.id }}-width"
+              src="https://cdn.shopify.com/s/files/1/0575/9575/6709/files/404-Image-min.jpg?v=1655291164"
+            >
+          </div>
+        {% else %}
+          <div class="imageSection-{{ block.id }} {{ block.settings.alignment }}">
+            <img class="imageSection-{{ block.id }}-width" src="{{ block.settings.upload_image | img_url:"200x200"}}">
+          </div>
+        {% endif %}
+      {% when 'textForShow' %}
+        <div class="textForShow-{{ block.id }}">
+          <p class="textForShow-{{ block.id }}-firstLine">{{ block.settings.textForShowFirstLine }}</p>
+          <p class="textForShow-{{ block.id }}-secondLine">
+            {{ block.settings.textForShowSecondLine }}
+            <a class="textForShow-{{ block.id }}-anchor" href="{{ block.settings.textForShow-anchor }}">
+              {{ block.settings.textForShow-anchorText }}
+            </a>
+          </p>
+        </div>
+    {% endcase %}
+  {% endfor %}
+</section>
+
+<style>
+  .section-wrapper-{{ section.id }}{
+    padding: 20px;
+  }
+    {% for block in section.blocks %}
+
+      {% case block.type %}
+        {% when "headLine" %}
+      .headLine-{{ block.id }}-width-small{
+        max-width: 576px;
+        margin:0 auto;
+      }
+      .headLine-{{ block.id }}-width-medium{
+        max-width: 1140px;
+        margin:0 auto;
+      }
+      .headLine-{{ block.id }}-width-large{
+        max-width: 100%;
+      }
+      .headLine-{{ block.id }}-width-custom{
+        max-width: {{block.settings.custom-block-width | append: "px"}};
+        margin:0 auto;
+      }
+      .headLine-{{ block.id }}-width-large p{
+        padding: 0 32px;
+      }
+
+      .section-wrapper-{{ section.id }} .headLine-{{ block.id }} p{
+        font-size:{{block.settings.font-size | append:"px"}};
+        font-family: {{block.settings.font-family}};
+        line-height: {{block.settings.line-height}}px;
+        color: {{block.settings.text-color}};
+        letter-spacing:{{ block.settings.letter-spacing }}px;
+
+      }
+
+      .section-wrapper-{{ section.id }} .headLine-{{ block.id }}{
+        text-align:{{block.settings.align_text}};
+      }
+
+      @media only screen and (max-width: 760px){
+        font-size:{{block.settings.mobile-font-size | append:"px"}};
+        font-family: {{block.settings.mobile-font-family}};
+        line-height: {{block.settings.mobile-line-height}}px;
+        color: {{block.settings.mobile-text-color}};
+        letter-spacing:{{ block.settings.mobile-letter-spacing }}px;
+      }
+
+      {% when "imageSection" %}
+        .imageSection-{{ block.id }}-width{
+          max-width:1140px;
+          width: {{block.settings.width}}px;
+          object-fit:{{block.settings.align_image}};
+          height:{{block.settings.height}}px;
+        }
+
+
+      {% when "textForShow" %}
+    .textForShow-{{ block.id }}{
+      text-align:{{block.settings.align_text}};
+    }
+
+        .textForShow-{{ block.id }}-firstLine, .textForShow-{{ block.id }}-secondLine {
+          font-size:{{block.settings.font-size | append:"px"}};
+        font-family: {{block.settings.font-family}};
+        line-height: {{block.settings.line-height}}px;
+        color: {{block.settings.text-color}};
+        text-indent:{{ block.settings.text-indent }}cm;
+     letter-spacing:{{ block.settings.letter-spacing }}px;
+        }
+
+      .textForShow-{{ block.id }}-anchor{
+        color: {{block.settings.anchorText-color}};
+        text-decoration: {{ block.settings.text-decoration }};
+        cursor: {{ block.settings.cursor }};
+      }
+
+      {% endcase %}
+
+      {% endfor %}
+</style>
+
+{% schema %}
+ {
+   "name": "taskOne",
+   "blocks":[
+     {
+       "name": "Headline",
+       "type": "headLine",
+       "settings":[
+         {
+           "type": "richtext",
+           "id": "headLine",
+           "label":"Change the headline",
+           "default":"<p>404- Not Found</p>"
+         },
+         {
+         "type": "range",
+           "id":"font-size",
+           "label":"Font Size",
+           "min": 10,
+           "max": 50,
+           "step": 1,
+           "unit": "px",
+           "default": 32
+         }, {
+         "type": "range",
+           "id":"mobile-font-size",
+           "label":"Font Size For Mobile Device",
+           "min": 8,
+           "max": 40,
+           "step": 1,
+           "unit": "px",
+           "default": 20
+         },
+          {
+         "type": "range",
+           "id":"line-height",
+           "label":"Line Height",
+           "min": 10,
+           "max": 80,
+           "step": 1,
+           "unit": "px",
+           "default": 16
+         },
+         {
+         "type": "range",
+           "id":"mobile-line-height",
+           "label":"Line Height For Mobile",
+           "min": 10,
+           "max": 80,
+           "step": 1,
+           "unit": "px",
+           "default": 16
+         },
+         {
+         "type": "range",
+           "id":"letter-spacing",
+           "label":"Letter Spacing",
+           "min": 1,
+           "max": 10,
+           "step": 0.5,
+           "unit": "px",
+           "default": 1
+         },
+         {
+         "type": "range",
+           "id":"mobile-letter-spacing",
+           "label":"Letter Spacing For Mobile",
+           "min": 1,
+           "max": 10,
+           "step": 0.5,
+           "unit": "px",
+           "default": 1
+         },
+         {
+         "type": "font",
+           "id":"font-family",
+           "label":"Font Family"
+         },
+         {
+         "type": "color",
+           "id":"text-color",
+           "label":"Text Color",
+           "default": "#FFFFFF"
+         },
+         {
+         "type": "font",
+           "id":"mobile-font-family",
+           "label":"Font Family For Mobile"
+         },
+         {
+         "type": "color",
+           "id":"mobile-text-color",
+           "label":"Text Color For Mobile",
+           "default": "#FFFFFF"
+         },
+         {
+         "type": "select",
+           "id":"text-block-width",
+           "label":"Width of Text BLock",
+           "options":[
+             {
+               "value":"small",
+               "label":"Small"
+             },
+             {
+               "value":"medium",
+               "label":"Medium"
+             },
+             {
+               "value":"large",
+               "label":"Large"
+             },
+             {
+               "value":"custom",
+               "label":"Custom"
+             }
+           ],
+           "default": "medium"
+         },
+          {
+         "type": "range",
+           "id":"custom-block-width",
+           "label":"Change your block Width",
+           "min": 100,
+           "max": 2000,
+           "step": 50,
+           "unit": "px",
+           "default": 800
+         },
+          {
+         "type": "select",
+           "id":"align_text",
+           "label":"Text Alignment",
+           "options":[
+             {
+               "value":"left",
+               "label":"Left"
+             },
+             {
+               "value":"center",
+               "label":"Center"
+             },
+             {
+               "value":"right",
+               "label":"Right"
+             }
+           ],
+           "default": "center"
+         }
+
+       ]
+     },
+     {
+       "name": "Image",
+       "type": "imageSection",
+       "settings":[
+         {
+           "type": "image_picker",
+           "id": "upload_image",
+           "label":"Change Your Image"
+         },
+         {
+         "type": "select",
+           "id":"align_image",
+           "label":"Image Alignment",
+           "options":[
+             {
+               "value":"fill",
+               "label":"Fill"
+             },
+             {
+               "value":"contain",
+               "label":"Contain"
+             },
+             {
+               "value":"cover",
+               "label":"Cover"
+             },
+             {
+               "value":"scale-down",
+               "label":"Scale Down"
+             },
+             {
+               "value":"none",
+               "label":"None"
+             }],
+         "default":"cover"
+         },
+         {
+         "type": "range",
+           "id":"width",
+           "label":"Image Width",
+           "min": 200,
+           "max": 2000,
+           "step": 100,
+           "unit": "px",
+           "default": 400
+         },
+         {
+         "type": "range",
+           "id":"height",
+           "label":"Image Height",
+           "min": 200,
+           "max": 2000,
+           "step": 100,
+           "unit": "px",
+           "default": 500
+         },
+          {
+          "type": "select",
+          "id": "alignment",
+          "label": "Image alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "center"
+        }
+       ]
+     },
+     {
+       "name": "Below Text",
+       "type": "textForShow",
+       "settings":[
+         {
+           "type": "text",
+           "id": "textForShowFirstLine",
+           "label":"Change the First text",
+           "default": "Oops, it looks like the page you are looking for is no longer here..."
+         },
+         {
+           "type": "text",
+           "id": "textForShowSecondLine",
+           "label":"Change the Second text",
+           "default": "Choose one of the links below or "
+         },
+         {
+           "type": "url",
+           "id": "textForShow-anchor",
+           "label":"Change the Redirect Link",
+           "default": "/"
+         },
+         {
+           "type": "text",
+           "id": "textForShow-anchorText",
+           "label":"Change the anchor Text",
+           "default": "click here to return home."
+         },
+
+         {
+         "type": "range",
+           "id":"font-size",
+           "label":"Font Size",
+           "min": 10,
+           "max": 50,
+           "step": 1,
+           "unit": "px",
+           "default": 16
+         }, {
+         "type": "range",
+           "id":"mobile-font-size",
+           "label":"Font Size For Mobile Device",
+           "min": 8,
+           "max": 40,
+           "step": 1,
+           "unit": "px",
+           "default": 10
+         },
+          {
+         "type": "range",
+           "id":"line-height",
+           "label":"Line Height",
+           "min": 10,
+           "max": 80,
+           "step": 1,
+           "unit": "px",
+           "default": 16
+         },
+         {
+         "type": "range",
+           "id":"mobile-line-height",
+           "label":"Line Height For Mobile",
+           "min": 10,
+           "max": 80,
+           "step": 1,
+           "unit": "px",
+           "default": 16
+         },
+         {
+         "type": "range",
+           "id":"text-indent",
+           "label":"Text Indent",
+           "min": 0,
+           "max": 10,
+           "step": 0.5,
+           "unit": "cm",
+           "default": 0
+         },
+         {
+         "type": "range",
+           "id":"letter-spacing",
+           "label":"Letter Spacing",
+           "min": 1,
+           "max": 10,
+           "step": 0.5,
+           "unit": "px",
+           "default": 1
+         },
+         {
+         "type": "font",
+           "id":"font-family",
+           "label":"Font Family"
+         },
+         {
+         "type": "color",
+           "id":"text-color",
+           "label":"Text Color",
+           "default": "#FFFFFF"
+         },
+         {
+         "type": "font",
+           "id":"mobile-font-family",
+           "label":"Font Family For Mobile"
+         },
+         {
+         "type": "color",
+           "id":"mobile-text-color",
+           "label":"Text Color For Mobile",
+           "default": "#FFFFFF"
+         },
+                   {
+         "type": "color",
+           "id":"anchorText-color",
+           "label":"Anchor Text Color",
+           "default": "#FFFF00"
+         },
+         {
+         "type": "select",
+           "id":"cursor",
+           "label":"Cursor",
+           "options":[
+             {
+               "value":"help",
+               "label":"Help"
+             },
+             {
+               "value":"wait",
+               "label":"Wait"
+             },
+             {
+               "value":"crosshair",
+               "label":"Crosshair"
+             },
+                          {
+               "value":"pointer",
+               "label":"Pointer"
+             },
+             {
+               "value":"grab",
+               "label":"Grab"
+             },
+             {
+               "value":"auto",
+               "label":"Auto"
+             }
+           ],
+           "default": "auto"
+         },
+         {
+         "type": "select",
+           "id":"text-decoration",
+           "label":"Anchor Text Decoration",
+           "options":[
+             {
+               "value":"overline",
+               "label":"Overline"
+             },
+             {
+               "value":"line-through",
+               "label":"Line-through"
+             },
+             {
+               "value":"underline",
+               "label":"Underline"
+             },
+             {
+               "value":"underline overline",
+               "label":"Underline and Overline"
+             }],
+         "default":"underline overline"},
+          {
+         "type": "select",
+           "id":"align_text",
+           "label":"Text Alignment",
+           "options":[
+             {
+               "value":"left",
+               "label":"Left"
+             },
+             {
+               "value":"center",
+               "label":"Center"
+             },
+             {
+               "value":"right",
+               "label":"Right"
+             }
+           ],
+           "default": "center"
+         }
+
+       ]
+     }
+   ],
+   "presets": [
+	{ "name": "Test One",
+    "blocks": [
+        {
+          "type": "headLine"
+        },
+        {
+          "type": "imageSection"
+        },
+        {
+          "type": "textForShow"
+        }
+      ]}
+]
+ }
+{% endschema %}
